@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/d58feda187.js"></script>
+    <title>T-shirt shop 訂單確認表</title>
+
+    <style>
+        body {
+            background-color: rgba(0, 0, 0, .2);
+            box-sizing: border-box;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .container li {
+            list-style: none;
+            padding-top: 1em;
+        }
+        
+        .container .fa {
+            position: absolute;
+            left: 0;
+        }
+        
+        .item_header {
+            display: flex;
+            width: 100%;
+            top: 50px;
+            list-style: none;
+        }
+        
+        .item_header li {
+            display: block;
+            width: 100%;
+            /* border-bottom: 1px solid #83521e; */
+            text-align: center;
+            font-size: 25px;
+        }
+        
+        .item_container {
+            width: 100%;
+            display: flex;
+            background: white;
+        }
+        
+        .item_container ul {
+            border-bottom: 1px solid black;
+        }
+        
+        .item_container img {
+            width: 150px;
+            height: 150px;
+        }
+        
+        .price,
+        .count,
+        .amount,
+        .operate,
+        .name {
+            margin: auto;
+        }
+        
+        .name {
+            font-weight: ˙00;
+        }
+        
+        .all_check {
+            width: 100%;
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            margin-top: 1em;
+        }
+        
+        .all_check li {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+        
+        .all_check .btn-success {
+            position: absolute;
+            right: 0;
+        }
+        
+        .all_check .btn-secondary a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        .total {
+            position: absolute;
+            left: 30%;
+            font-size: 25px;
+            color: red;
+        }
+        
+        @media only screen and (max-width: 1000px) {
+            .container {
+                width: 100%;
+                height: 100vh;
+            }
+            .text {
+                display: none;
+            }
+            .item_container {
+                position: relative;
+            }
+            .item_body {
+                width: 100%;
+                display: flex;
+            }
+            .item_body .name {
+                position: absolute;
+                top: 0em;
+                right: 4em;
+                padding-top: 1em;
+                font-size: 25px;
+                color: #83521e;
+            }
+            .total {
+                position: absolute;
+                left: 0%;
+                font-size: 25px;
+                color: red;
+            }
+            .total {
+                position: absolute;
+                left: 0%;
+                font-size: 28px;
+                font-weight: 900;
+            }
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            .item_body {
+                display: block;
+                position: relative;
+                top: 0;
+                left: 0;
+            }
+            .item_container img {
+                width: 180px;
+                height: 180px;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .item_body .name {
+                left: 20%;
+            }
+            .item_container .count {
+                margin-top: 10px;
+                margin-left: 20%;
+            }
+            .item_container .amount {
+                margin-top: -15px;
+                margin-left: 20%;
+            }
+            .item_container .operate {
+                margin-top: -15px;
+                margin-left: 20%;
+            }
+            .total {
+                position: absolute;
+                left: 0%;
+                font-size: 28px;
+                font-weight: 900;
+            }
+        }
+        
+        @media only screen and (max-width: 540px) {
+            .total {
+                position: absolute;
+                font-size: 20px;
+                font-weight: 700;
+            }
+        }
+        
+        @media only screen and (max-width: 375px) {
+            .total {
+                position: absolute;
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+        
+        @media only screen and (max-width: 280px) {
+            .item_container img {
+                width: 100px;
+                height: 100px;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .total {
+                position: absolute;
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="container">
+            <!--<ul class="item_header text">
+                <li>
+                </li>
+                <li>商品名稱
+                </li>
+                 <li>單價</li> 
+                <li>數量</li>
+                <li>總計</li>
+                <li>操作</li>
+            </ul>-->
+            <li></li>
+            <div class="item_container" v-for="(item,index) in itemList" :key="item.id">
+                <ul class="item_header item_body">
+                    <li>
+                        <img :src="item.imgUrl">
+                    </li>
+                    <li class="name">
+                        {{item.itemName}}
+                    </li>
+                    <!-- <li class="price"><span>$</span>{{ item.price}}</li> -->
+                    <li class="count">
+                        <button @click="handleSub(item)" class="btn btn-secondary">-</button>&nbsp; {{ item.count }} &nbsp;
+                        <button @click="handlePlus(item)" class="btn btn-secondary">+</button>
+                    </li>
+                    <li class="amount">$ {{ item.price * item.count}}</li>
+                    <li class="operate">
+                        <button @click="handleDelete(index)" class="btn btn-danger">刪除</button>
+                    </li>
+                </ul>
+            </div>
+            <ul class="all_check">
+                <li>
+                    <button class="btn btn-secondary"><a href="index.html">上一頁</a></button>
+                </li>
+                <li class="total">總金額:{{total}}</li>
+                <li>
+                    <button class="btn btn-success" @click="success">確認訂單</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                itemList: [{
+                        id: '1',
+                        itemName: '牛仔褲',
+                        imgUrl: '/images/jens-products-1.jpg',
+                        price: '555',
+                        count: '2'
+                    }, {
+                        id: '2',
+                        itemName: '鬆緊褲',
+                        imgUrl: '/images/short-products-3.jpg',
+                        price: '3400',
+                        count: '2'
+                    }, {
+                        id: '3',
+                        itemName: '白色球鞋',
+                        imgUrl: '/images/shoes-products-2.jpg',
+                        price: '3150',
+                        count: '5'
+                    }, {
+                        id: '4',
+                        itemName: '松樹屬上衣',
+                        imgUrl: '/images/product_d-2.jpg',
+                        price: '150',
+                        count: '6'
+                    }, {
+                        id: '5',
+                        itemName: '條紋上衣',
+                        imgUrl: '/images/product_a-1.jpg',
+                        price: '2300',
+                        count: '3'
+                    }, {
+                        id: '6',
+                        itemName: '深淺牛仔褲',
+                        imgUrl: '/images/jens-products-a.jpg',
+                        price: '1200',
+                        count: '2'
+                    },
+
+                ]
+            },
+            methods: {
+                handlePlus: function(item) {
+                    console.log(item)
+                    item.count++;
+                },
+                handleSub: function(item) {
+                    console.log(item)
+                    if (item.count > 1) {
+                        item.count--;
+                    }
+                },
+                handleDelete: function(index) {
+                    alert('確定要刪除')
+                    this.itemList.splice(index, 1)
+                },
+                success() {
+                    alert('訂單成功送出');
+                    `<a href="index.html"></a>`
+                }
+            },
+            computed: {
+                total: function() {
+                    let sum = 0;
+                    for (let i in this.itemList) {
+                        sum += this.itemList[i].price * this.itemList[i].count;
+                    }
+                    return sum;
+                }
+            },
+        })
+    </script>
+
+
+</body>
+
+</html>
